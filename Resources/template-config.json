@@ -15,6 +15,12 @@
       "maildomain": "Email Domain",
 	    "Company": "Contoso",
       "SearchOU": "DC=Contoso,DC=com",
+      "password":{
+        "NumberofWords": 1,
+        "RequiredLength": 14,
+        "Numbers": "true/false",
+        "SpecialChar": "!,@,#,$,&"
+      },
       "Auth":{
         "tenant_id": "Entra App Tennant ID",
         "certThumbprint": "Entra App Cert thumbprint",

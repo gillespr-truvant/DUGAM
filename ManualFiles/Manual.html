@@ -527,6 +527,14 @@ Copies group memberships from another user for AD and/or Entra. User running the
 <li><code>Company</code>: Specifies the company name (e.g., <code>Contoso</code>).</li>
 <li><code>SearchOU</code>: Defines the Organizational Unit (OU) in Active Directory to search for users. (e.g.<code>OU=Users,DC=Contoso,DC=com</code>)</li>
 </ul>
+<h4 id="password">Password</h4>
+<p>Setting used for the password generator</p>
+<ul>
+<li><code>NumberofWords</code>: This is the number of words it will selected from the password dictionary. For each word it will have a number or special chararcters in between them.</li>
+<li><code>RequiredLenght</code>: The number of chararcters required for the passwords. It will extend it with the numbers or special chararcters.</li>
+<li><code>Numbers</code>: Boolean field [true/false] if you want numbers 0-9 included.</li>
+<li><code>SpecialChar</code>: Enter in the special chararcters your want to use seperated by <code>,</code></li>
+</ul>
 <h4 id="authentication-information">Authentication Information:</h4>
 <ul>
 <li><code>Auth</code>: Authentication details for accessing Entra via a deploy Application with cert authentication.

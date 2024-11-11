@@ -137,6 +137,13 @@ This section contains general settings related to the domain, email templates, a
 - `Company`: Specifies the company name (e.g., `Contoso`).
 - `SearchOU`: Defines the Organizational Unit (OU) in Active Directory to search for users. (e.g.`OU=Users,DC=Contoso,DC=com`)
 
+#### Password
+Setting used for the password generator
+- `NumberofWords`: This is the number of words it will selected from the password dictionary. For each word it will have a number or special chararcters in between them. 
+- `RequiredLenght`: The number of chararcters required for the passwords. It will extend it with the numbers or special chararcters. 
+- `Numbers`: Boolean field [true/false] if you want numbers 0-9 included. 
+- `SpecialChar`: Enter in the special chararcters your want to use seperated by `,`
+
 #### Authentication Information:
 - `Auth`: Authentication details for accessing Entra via a deploy Application with cert authentication.
   - `tenant_id`: The ID of the Entra tenant.

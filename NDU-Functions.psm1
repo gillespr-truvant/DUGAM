@@ -307,7 +307,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 #>
     
 
-    $Dict = Get-Content -Path '.\Resources\password.dict' | Sort-Object {Get-Random} | Select-Object -First 2
+    $Dict = Get-Content -Path '.\Resources\password.dict' | Sort-Object {Get-Random} | Select-Object -First $config.Settings.password.NumberofWords
     $WordList = @()
     $chars=@()
 
@@ -328,12 +328,25 @@ Generates a passphase with two words from the password dict. Adjust the words to
         $chars = $word -join ''
         $WordList += $chars -join ''
     }
+    
+    #$specialChar = ($config.Settings.password.SpecialChar).Split(",")
+    $Delimiters = @()
+    if($config.Settings.password.Numbers){
+        $Delimiters += '1','2','3','4','5','6','7','8','9','0'   
+    }
+    if($config.Settings.password.SpecialChar -gt 0){
+        $Delimiters += ($config.Settings.password.SpecialChar).Split(',')
+    }
+    for ($i = 0; $i -lt $config.Settings.password.NumberofWords; $i++) {
+       $Global:password += $WordList[$i] + (Get-Random -InputObject $Delimiters)
+    }
 
-    $Delimiters = '1','2','3','4','5','6','7','8','9','0', '!','@','#','$','&'
-    $Delimiter1 = Get-Random -InputObject $Delimiters
-    $Delimiter2 = Get-Random -InputObject $Delimiters
-    $global:Password = $WordList[0] + $Delimiter1 + $WordList[1] + $Delimiter2
-    if($global:Password.length -lt 14){
+    for ($i = 1; $i -le 100; $i++ ) {
+        Write-Progress -Activity "Creating Password" -Status "$i% Complete:" -PercentComplete $i
+        Start-Sleep -Milliseconds 10
+    }
+
+    if($global:Password.length -lt $config.Settings.password.RequiredLength){
 		write-host "Extending Length" -foreground red
 		start-sleep -Milliseconds 100
         for ($i = 0; $i -lt 14-$global:Password.length; $i++) {
@@ -343,11 +356,13 @@ Generates a passphase with two words from the password dict. Adjust the words to
     if($global:Password -cmatch "[A-Z]"){
         $global:Password = (Get-Culture).TextInfo.ToTitleCase($global:Password)
     }
+    if($config.Settings.password.SpecialChar -gt 0){
+        if(!($password -cmatch "[$($config.Settings.password.SpecialChar)]")){
+            $global:Password += (get-random -InputObject ($config.Settings.password.SpecialChar).split(','))
+        }
+    }   
 
-    for ($i = 1; $i -le 100; $i++ ) {
-        Write-Progress -Activity "Creating Password" -Status "$i% Complete:" -PercentComplete $i
-        Start-Sleep -Milliseconds 10
-    }
+    
     Write-PSFMessage -Level Host -Message "New Password generated: $($global:Password)`n`n" 
 	start-sleep 5
 }

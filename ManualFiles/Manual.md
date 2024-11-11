@@ -49,7 +49,7 @@ The two primary functions you can select from are create a new user and Mass Gro
     Currently you must install the modules manually. It is recommend to install for All Users. 
 
 1. Once the modules are installed you will need to edit the `template-config.json` file to include your setting requirements.
-  1. Copy and rename to `config.json`. Then follow the detailed information in the [Config File](##Config%20File) section on each setting. 
+  1. Copy and rename to `config.json`. Then follow the detailed information in the [Config File](#Config%20File) section on each setting. 
 1. After `config.json` has the fields configured, create a shortcut point to`"C:\Program Files\PowerShell\7\pwsh.exe" "C:\PATH\DUGAM\CustomNew-ADUser.ps1"`. This will call the main tool menu.
 1. Run though some tests (1. Create new user, group membership removal and copy on existing user, etc.) to verify `config.json` fields are correct. 
 

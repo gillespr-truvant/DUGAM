@@ -368,7 +368,7 @@ code {
 <h1 id="domain-user--group-automator-manual-dugam">Domain User &amp; Group Automator manual (DUGAM)</h1>
 <p>This is a powershell tool that is used to create AD user and mass adjust group membership on AD, Entra and exchanged by copying from an existing user.</p>
 <h2 id="tool-functions">Tool Functions</h2>
-<p>The two primary function you can select from. It will then follow the prompts for each respective function:</p>
+<p>The two primary functions you can select from are create a new user and Mass Group membership. It will then follow the prompts for each respective function.</p>
 <h3 id="create-a-new-adentra-user-account">Create a New AD/Entra User Account:</h3>
 <ul>
 <li>
@@ -377,11 +377,11 @@ code {
 </li>
 <li>
 <p><strong>Prompts:</strong></p>
-<p>Will prompt for the following: First Name*, SurName*, Title, Department, Employee ID, Manager, Office Location, and Phone Extension. Fields with * are required. The Manager Prompt will ask for name, it will then search AD to find an user that matches. The Office locations will prompt you to select form the list built in config file. If one of the office location info is blank(City, Office name, State, postalCode) it will then prompt the user for it. If there is an typo or the OU in config file is not found it will error out and exit. Once the user is created it will prompt if you want to copy groups from an existing users.</p>
+<p>Will prompt for the following: First Name*, SurName*, Title, Department, Employee ID, Manager, Office Location, and Phone Extension. Fields with * are required. The Manager Prompt will ask for name, it will then search AD to find an user that matches. The Office locations will prompt you to select from the list built in config file. If one of the office location info is blank (City, Office name, State, Postal Code) it will then prompt the user for it. If there is an typo or the OU in config file is not found it will error out and exit. Once the user is created it will prompt if you want to copy groups from an existing users.</p>
 </li>
 <li>
 <p><strong>Group Copying:</strong></p>
-<p>It will prompt if you want to copy group memberships from an existing user. if selected to copy, it will copy all group memberships from another user in AD, Entra, and Exchange. The user running the tool must have permission to adjust membership on the groups.  Entra and Exchange groups are copied via a scheduled task to ensure the new account fully syncs.</p>
+<p>It will prompt if you want to copy group memberships from an existing user. If selected to copy, it will copy all group memberships from another user in AD, Entra, and Exchange. The user running the tool must have permission to adjust membership on the groups.  Entra and Exchange groups are copied via a scheduled task to ensure the new account fully syncs.</p>
 </li>
 <li>
 <p><strong>Notification:</strong></p>
@@ -392,19 +392,19 @@ code {
 <ul>
 <li>
 <p><strong>Use Case:</strong>
-This tool is ideal for when a user switches departments, sites, or different positions and they no longer need to access items from their previous position. It will remove all existing groups and copy new group membership over from an existing user for AD, Exchange, and entra.</p>
+This tool is ideal for when a user switches departments, sites, or different positions and they no longer need to access items from their previous position. It will remove all existing groups and copy new group membership over from an existing user for AD, Exchange, and Entra.</p>
 </li>
 <li>
 <p><strong>Prompts:</strong>
-Will prompt for the Target User, Source User. It will search for those users in AD and have you select from the found result. It will prompt if you want to adjust AD or Entra, both can be selected on a single run of the tool. it will also prompt if you want to remove existing groups before coping over new groups.</p>
+Will prompt for the Target User, Source User. It will search for those users in AD and have you select from the found results. It will prompt if you want to adjust AD or Entra, both can be selected on a single run of the tool. It will also prompt if you want to remove existing groups before coping over new groups.</p>
 </li>
 <li>
 <p><strong>Remove Existing Memberships:</strong>
-Clears all current group memberships for AD or/and Entra depending on user selection.</p>
+Clears all current group memberships for AD and/or Entra depending on user selection.</p>
 </li>
 <li>
 <p><strong>Copy New Memberships:</strong>
-Copies group memberships from another user for AD or/and Entra. User running the tool must have permission to adjust group membership.</p>
+Copies group memberships from another user for AD and/or Entra. User running the tool must have permission to adjust group membership.</p>
 </li>
 </ul>
 <h2 id="tool-setup">Tool setup</h2>
@@ -436,10 +436,13 @@ Copies group memberships from another user for AD or/and Entra. User running the
 <p>Currently you must install the modules manually. It is recommend to install for All Users.</p>
 </li>
 <li>
-<p>One the modules are installed you will need to edit the <code>config.json</code> file to include your setting requirements. Detail information can be found in the 'Config File' section.</p>
+<p>Once the modules are installed you will need to edit the <code>template-config.json</code> file to include your setting requirements.</p>
 </li>
 <li>
-<p>After <code>config.json</code> is has the field configured. Create a shortcut point to<code>&quot;C:\Program Files\PowerShell\7\pwsh.exe&quot; &quot;C:\PATH\DUGAM\CustomNew-ADUser.ps1&quot;</code> this will call the main tool menu.</p>
+<p>Copy and rename to <code>config.json</code>. Then follow the detailed information in the <a href="#config-file">Config File</a> section on each setting.</p>
+</li>
+<li>
+<p>After <code>config.json</code> has the fields configured, create a shortcut point to<code>&quot;C:\Program Files\PowerShell\7\pwsh.exe&quot; &quot;C:\PATH\DUGAM\CustomNew-ADUser.ps1&quot;</code>. This will call the main tool menu.</p>
 </li>
 <li>
 <p>Run though some tests (1. Create new user, group membership removal and copy on existing user, etc.) to verify <code>config.json</code> fields are correct.</p>
@@ -450,22 +453,22 @@ Copies group memberships from another user for AD or/and Entra. User running the
 <ul>
 <li>
 <p><strong>Office</strong>:</p>
-<p>When creating a new user it will prompt for the office location. This prompt is built with option from the config file. <code>config.sitecode</code> array will be the choices. The site code will link to the <code>config.site.[SiteCode.code]</code> and use those fields when creating the AD user.</p>
+<p>When creating a new user it will prompt for the office location. This prompt is built with the option from the config file. <code>config.sitecode</code> array will be the choices. The site code will link to the <code>config.site.[SiteCode.code]</code> and use those fields when creating the AD user.</p>
 </li>
 <li>
 <p><strong>Company</strong></p>
-<p>This prompt will only show if you have multiple Company names listed under <code>config.settings.company</code>. If there is only one it will use that by default without a prompt. Having Multiple Company names is helpful when creating dynamic distribution list for example. You want a Distribution list that has all accounts that are in a region, Contoso NA, Contoso EU, etc.</p>
+<p>This prompt will only show if you have multiple company names listed under <code>config.settings.company</code>. If there is only one it will use that by default without a prompt. Having multiple company names is helpful when creating dynamic distribution list. For example, You want a distribution list that has all accounts that are in a region(s) (e.g. Contoso NA, Contoso EU).</p>
 </li>
 </ul>
 <h3 id="user-lookup">User lookup</h3>
-<p>The user lookup function will search AD under the <code>config.settings.searchou</code> for matching Name, or SamAccountName. If no user is found with the name provide it will give an error. Certain lookup are mandatory(e.g. SourceUser for group copying) and will continue to prompt until an user is selected. If the user lookup is not mandatory it will let you exit the search by typing in <code>Exit</code></p>
+<p>The user lookup function will search AD under the <code>config.settings.searchou</code> for matching Name, or SamAccountName. If no user is found with the name provide, it will give an error. Certain lookups are mandatory (e.g. SourceUser for group copying) and will continue to prompt until an user is selected. If the user lookup is not mandatory it will let you exit the search by typing in <code>Exit</code></p>
 <h3 id="graphexchange-authentication">Graph/Exchange Authentication</h3>
-<p>Authentication for Entra and Exchange is provided via entra app authentication using certificate. This is used by the schedule task so no login credentials need to be stored. The certificate need to be setup per computer that the script is running from. It is recommend to run on an server with Active Directory Remote Administration Server Tools(RAST) install for this reason.</p>
+<p>Authentication for Entra and Exchange is provided via Entra app authentication using certificate. This is used by the schedule task so no login credentials needs to be stored. The certificate need to be setup per computer that the script is running from. It is recommend to run on an server with Active Directory Remote Administration Server Tools (RAST) install for this reason.</p>
 <p>⚠️<strong>IT IS NOT RECOMMENDED TO RUN ON A DOMAIN CONTROLLER</strong>⚠️</p>
 <h3 id="logging">Logging</h3>
 <p>The script will generate a log file for each day(yyyy-mm-dd) &amp; username running the script(e.g. <code>1600-01-31-JoeSmith.log</code>). The logs can be found under the <code>\Logs</code> folder.</p>
 <h3 id="files">Files</h3>
-<p>Within the tool folder you will find the following folder structure. The tools makes calls to other file via relative path. Some Specific file that will need editing.</p>
+<p>Within the tool folder you will find the following folder structure. The tool makes calls to other files via relative path. Some specific file that will need editing, before running.</p>
 <ul>
 <li>
 <p><code>config.json</code> house all the setting and configuration needed before running the tool. View the config section of the manual for additional information regarding the fields.</p>
@@ -474,8 +477,8 @@ Copies group memberships from another user for AD or/and Entra. User running the
 <p><code>password.dic</code> contains the words used when creating the password. Each line is considered a word. It will pull two words.</p>
 </li>
 <li>
-<p><code>MailTemplateUserCreated.html</code> This is the email body that will be sent to the manager/IT team with the user login information. you can view it in any browser. The image that is displayed in the email needs to be setup as an attachment under <code>config.smtp.attachments</code> with matching file name (e.g. logo.png). This should let the email load without having the need to allow it by the user. The file name can be found on line 305 <code>&lt;img src=&quot;cid:logo.png&quot;/&gt;</code></p>
-<p>if you do not want the email to have an image at top remove or comment out the following command block.</p>
+<p><code>MailTemplateUserCreated.html</code> is the email body that will be sent to the manager/IT team with the user login information. The image that is displayed in the email needs to be setup as an attachment under <code>config.smtp.attachments</code> with matching file name (e.g. logo.png). This should let the email load without having the need to allow it by the user. The file name can be found on line 305 <code>&lt;img src=&quot;cid:logo.png&quot;/&gt;</code></p>
+<p>If you do not want the email to have an image at top, remove or comment out the following command block.</p>
 <pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- COMPANY LOGO--&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
@@ -512,7 +515,7 @@ Copies group memberships from another user for AD or/and Entra. User running the
 <li><code>attachment</code>: The path to a file that will be attached to the email, e.g., a <code>.png</code> image located at <code>C:\Path\jpeg.png</code>.</li>
 <li><img src="https://img.shields.io/badge/in_progress-yellow" alt="In Progress"> <s><code>ErrorTo</code>: Specifies the email address where errors will be sent</s>.</li>
 <li><code>ITEmail</code>: Defines an IT team's email address to be included in the BCC (blind carbon copy) field for emails containing user credentials.</li>
-<li><code>sendManagerEmail</code>: Boolean field(<code>TRUE</code> or <code>FALSE</code>) indicating whether an email should be sent to the user's manager with account details once finished. It false is selected it will only sent to the <code>ITEmail</code>.</li>
+<li><code>sendManagerEmail</code>: Boolean field (<code>TRUE</code> or <code>FALSE</code>) indicating whether an email should be sent to the user's manager with account details once finished. If false is selected it will only sent to the <code>ITEmail</code>.</li>
 </ul>
 <h3 id="2-settings-configuration">2. <strong>Settings Configuration</strong></h3>
 <p>This section contains general settings related to the domain, email templates, and authentication.</p>
@@ -526,9 +529,9 @@ Copies group memberships from another user for AD or/and Entra. User running the
 </ul>
 <h4 id="authentication-information">Authentication Information:</h4>
 <ul>
-<li><code>Auth</code>: Authentication details for accessing services like Entra (Microsoft Entra, formerly Azure AD) via a deploy Application with cert authentication.
+<li><code>Auth</code>: Authentication details for accessing Entra via a deploy Application with cert authentication.
 <ul>
-<li><code>tenant_id</code>: The ID of the Entra (Azure AD) tenant.</li>
+<li><code>tenant_id</code>: The ID of the Entra tenant.</li>
 <li><code>certThumbprint</code>: The certificate thumbprint used for authentication.</li>
 <li><code>client_id</code>: The client ID of the application in Entra.</li>
 <li><code>Organization</code>: The name of the Entra organization.</li>
@@ -553,7 +556,7 @@ Copies group memberships from another user for AD or/and Entra. User running the
 <li><code>City</code>: The city where the office is located (e.g., <code>Berlin</code>).</li>
 <li><code>office</code>: An name for the office. If there are multiple office in Berlin location this is a way to distinguish them.  (e.g., <code>City Centre Alexanderplatz, East Side Galley</code>).</li>
 <li><code>OU</code>: The Organizational Unit in Active Directory where user accounts for this site will be stored (e.g., <code>OU=Users,OU=Site01,DC=Contoso,DC=com</code>).</li>
-<li><code>state</code>: The state\provence of the office location (e.g., <code>Minnesota</code>).</li>
+<li><code>state</code>: The state/provence of the office location (e.g., <code>Minnesota</code>).</li>
 <li><code>PostalCode</code>: The postal code of the office location (e.g., <code>10001</code>).</li>
 </ul>
 </li>

@@ -1,5 +1,6 @@
 # Domain User & Group Automator manual (DUGAM)
 V2.1.1
+
 This is a powershell tool that is used to create AD user and mass adjust group membership on AD, Entra and exchanged by copying from an existing user. The full details can be found in the [manual](ManualFiles\Manual.md)
 
 ## Tool Functions
